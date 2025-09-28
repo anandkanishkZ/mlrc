@@ -13,9 +13,9 @@ export default function ArticlesPage() {
         {/* Hero Section */}
         <section className="relative py-20 bg-primary-500 text-white">
           <div className="container-custom text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">Research Articles</h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">Media Coverage</h1>
             <p className="text-xl text-primary-100 max-w-3xl mx-auto">
-              Discover cutting-edge research publications, scholarly articles, and academic papers from our esteemed contributors.
+              Discover how Madhesh Library & Research Center is featured in various media outlets and publications.
             </p>
           </div>
         </section>

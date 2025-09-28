@@ -30,7 +30,7 @@ const Articles = () => {
   };
 
   return (
-    <section id="articles" className="section-padding bg-white">
+    <section id="media-coverage" className="section-padding bg-white">
       <div className="container-custom">
         <motion.div
           variants={containerVariants}
@@ -49,7 +49,7 @@ const Articles = () => {
             </p>
           </motion.div>
 
-          {/* Articles Grid */}
+          {/* Media Coverage Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articlesData.articles.map((article, index) => (
               <motion.div
@@ -61,11 +61,7 @@ const Articles = () => {
               >
                 <div className="relative h-48 mb-6 rounded-lg overflow-hidden">
                   <Image
-                    src={`https://images.unsplash.com/photo-${
-                      article.id === 1 ? '1481627834876-6357b2dd7c0e' :
-                      article.id === 2 ? '1507003211169-0a1dd7228f2d' :
-                      '1434030216411-0b793f4b4173'
-                    }?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80`}
+                    src={article.image}
                     alt={article.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -122,7 +118,7 @@ const Articles = () => {
               whileTap={{ scale: 0.95 }}
               className="btn-outline text-lg px-8"
             >
-              View All Articles
+              View All Media Coverage
             </motion.button>
           </motion.div>
         </motion.div>
@@ -146,11 +142,7 @@ const Articles = () => {
           >
             <div className="relative h-64">
               <Image
-                src={`https://images.unsplash.com/photo-${
-                  selectedArticle.id === 1 ? '1481627834876-6357b2dd7c0e' :
-                  selectedArticle.id === 2 ? '1507003211169-0a1dd7228f2d' :
-                  '1434030216411-0b793f4b4173'
-                }?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`}
+                src={selectedArticle.image}
                 alt={selectedArticle.title}
                 fill
                 className="object-cover rounded-t-2xl"
@@ -189,23 +181,99 @@ const Articles = () => {
                 <p className="text-lg text-neutral-700 leading-relaxed mb-6">
                   {selectedArticle.excerpt}
                 </p>
-                <p className="text-neutral-700 leading-relaxed mb-4">
-                  This is a comprehensive article that delves deep into the subject matter, 
-                  providing valuable insights and research findings that contribute to our 
-                  understanding of the topic. The research methodology employed ensures 
-                  accuracy and reliability of the findings presented.
-                </p>
-                <p className="text-neutral-700 leading-relaxed mb-4">
-                  The implications of this research extend beyond academic circles and have 
-                  practical applications in various fields. The detailed analysis and 
-                  evidence-based conclusions make this a valuable resource for researchers, 
-                  students, and practitioners alike.
-                </p>
-                <p className="text-neutral-700 leading-relaxed">
-                  For the complete article with detailed references, methodology, and 
-                  comprehensive analysis, please visit our physical library or contact 
-                  our research department for digital access.
-                </p>
+                {selectedArticle.url ? (
+                  <div className="bg-neutral-50 p-6 rounded-lg mb-6">
+                    {selectedArticle.id === 1 ? (
+                      <>
+                        <p className="text-neutral-700 leading-relaxed mb-4">
+                          This article discusses the Madhesh Library & Research Center's commitment to developing 
+                          critical thinking and fostering intellectual discourse among Madheshi scholars and the community.
+                        </p>
+                        <p className="text-neutral-700 leading-relaxed mb-4">
+                          The initiative focuses on building a conscious intelligentsia through systematic knowledge 
+                          production, research activities, and academic discourse that addresses Madheshi perspectives 
+                          and contemporary issues.
+                        </p>
+                        <motion.a
+                          href={selectedArticle.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300"
+                        >
+                          Read Full Article on Farsight Nepal
+                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </motion.a>
+                      </>
+                    ) : selectedArticle.id === 2 ? (
+                      <>
+                        <p className="text-neutral-700 leading-relaxed mb-4">
+                          यस लेखमा मधेशका युवाहरूले काठमाडौंको आलोकनगरमा मधेश पुस्तकालय तथा अनुसन्धान केन्द्र 
+                          सञ्चालनमा ल्याएको बारेमा विस्तृत जानकारी प्रदान गरिएको छ।
+                        </p>
+                        <p className="text-neutral-700 leading-relaxed mb-4">
+                          पुस्तकालयमा मधेश, देश र विश्वका विभिन्न क्रान्ति, संघर्ष र दर्शनसँग सम्बन्धित किताबहरू 
+                          राखिएका छन् र यसले मधेशको विषयमा खोज र अनुसन्धान गर्ने योजना छ।
+                        </p>
+                        <motion.a
+                          href={selectedArticle.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300"
+                        >
+                          न्यूज ब्यूरोमा पूरा लेख पढ्नुहोस्
+                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </motion.a>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-neutral-700 leading-relaxed mb-4">
+                          Click the link below to read the full article from the original source.
+                        </p>
+                        <motion.a
+                          href={selectedArticle.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white font-medium rounded-lg hover:shadow-lg transition-all duration-300"
+                        >
+                          Read Full Article
+                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </motion.a>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-neutral-700 leading-relaxed mb-4">
+                      This is a comprehensive article that delves deep into the subject matter, 
+                      providing valuable insights and research findings that contribute to our 
+                      understanding of the topic. The research methodology employed ensures 
+                      accuracy and reliability of the findings presented.
+                    </p>
+                    <p className="text-neutral-700 leading-relaxed mb-4">
+                      The implications of this research extend beyond academic circles and have 
+                      practical applications in various fields. The detailed analysis and 
+                      evidence-based conclusions make this a valuable resource for researchers, 
+                      students, and practitioners alike.
+                    </p>
+                    <p className="text-neutral-700 leading-relaxed">
+                      For the complete article with detailed references, methodology, and 
+                      comprehensive analysis, please visit our physical library or contact 
+                      our research department for digital access.
+                    </p>
+                  </>
+                )}
               </div>
 
               <div className="mt-8 pt-6 border-t border-neutral-200">

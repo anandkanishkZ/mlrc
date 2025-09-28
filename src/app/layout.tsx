@@ -6,10 +6,20 @@ export const metadata: Metadata = {
   description: 'Building a conscious Madheshi intelligentsia through research, discussion, and knowledge production. Founded in July 2023 by Aavash Guru, located in Alok Nagar, Kathmandu.',
   keywords: 'MLRC, Madhesh, library, research center, Aavash Guru, Anshu Kumar, intelligentsia, identity, representation',
   authors: [{ name: 'Madhesh Library & Research Center' }],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/logo.png', sizes: 'any', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/logo.png' },
+    ],
+  },
   openGraph: {
     title: 'MLRC - Madhesh Library & Research Center',
     description: 'Building a conscious Madheshi intelligentsia through research and discourse',
     type: 'website',
+    images: [{ url: '/logo.png' }],
   },
 }
 
@@ -20,6 +30,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
+      </head>
       <body>{children}</body>
     </html>
   )

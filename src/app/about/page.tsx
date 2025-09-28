@@ -71,13 +71,23 @@ export default function AboutPage() {
                 transition={{ duration: 0.8 }}
                 className="relative"
               >
-                <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
+                <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl group">
                   <Image
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                    alt="Library Interior"
+                    src="/library-photo.jpg"
+                    alt="Madhesh Library & Research Center - Our Space"
                     fill
-                    className="object-cover"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    priority
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  {/* Photo caption overlay */}
+                  <div className="absolute bottom-4 left-4 right-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                      <p className="text-base font-semibold text-neutral-800">MLRC Reading Hall</p>
+                      <p className="text-sm text-neutral-600">Research & Study Environment</p>
+                      <p className="text-xs text-primary-600 font-medium">📍 Aloknagar, Kathmandu</p>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>

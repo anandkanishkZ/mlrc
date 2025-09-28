@@ -38,38 +38,30 @@ export const aboutData = {
 
 
 export const articlesData = {
-  title: "Research & Publications",
-  description: "Explore our research initiatives and publications focused on Madheshi perspectives and critical discourse",
+  title: "Media Coverage",
+  description: "Explore how Madhesh Library & Research Center is featured in various media outlets and publications",
   articles: [
     {
       id: 1,
-      title: "Madheshi Identity in Contemporary Nepal",
-      author: "Aavash Guru",
-      date: "2024-09-15",
-      excerpt: "An analysis of Madheshi identity formation and its challenges within the broader context of Nepalese national discourse and representation.",
-      image: "/images/article-1.jpg",
-      category: "Identity Studies",
-      readTime: "12 min read"
+      title: "Madhesh Library to Build Conscious Madheshi Intelligentsia Through Knowledge Production",
+      author: "Farsight Nepal",
+      date: "2024-09-28",
+      excerpt: "Madhesh Library & Research Center's initiative to foster critical thinking and knowledge production among Madheshi scholars and intellectuals, contributing to the development of a conscious intelligentsia.",
+      image: "/library-photo.jpg",
+      category: "Knowledge Production",
+      readTime: "8 min read",
+      url: "https://farsightnepal.com/news/madhesh-library-to-build-conscious-madheshi-intelligentsia-through-knowledge-production"
     },
     {
       id: 2,
-      title: "Knowledge Production and Marginalization",
-      author: "Anshu Kumar",
-      date: "2024-08-20",
-      excerpt: "Examining how mainstream knowledge production marginalizes Madhesh perspectives and the need for alternative discourse platforms.",
-      image: "/images/article-2.jpg",
-      category: "Social Research",
-      readTime: "15 min read"
-    },
-    {
-      id: 3,
-      title: "Building Conscious Intelligentsia",
-      author: "MLRC Research Team",
-      date: "2024-07-30",
-      excerpt: "Strategies and approaches for developing critical thinking and consciousness among Madheshi youths and scholars.",
-      image: "/images/article-3.jpg",
-      category: "Education",
-      readTime: "10 min read"
+      title: "मधेशका युवाहरूले काठमाडौंमा सञ्चालनमा ल्याए मधेश पुस्तकालय तथा अनुसन्धान केन्द्र",
+      author: "न्यूज ब्यूरो",
+      date: "2023-08-04",
+      excerpt: "मधेशका युवाहरूको एक सक्रिय समूहले काठमाडौंको आलोकनगरमा मधेश पुस्तकालय तथा अनुसन्धान केन्द्र सञ्चालनमा ल्याएका छन्। पुस्तकालयमा मधेश, देश र विश्व अनि विभिन्न क्रान्ति, संघर्ष र दर्शनसँग सम्बन्धित किताबहरू राखिएका छन्।",
+      image: "/library-photo.jpg",
+      category: "उद्घाटन समाचार",
+      readTime: "6 min read",
+      url: "https://www.enewsbureau.com/news-details/16193/2023-08-04"
     }
   ]
 };
@@ -332,7 +324,8 @@ export const navigationData = {
   menuItems: [
     { name: "Home" },
     { name: "About" },
-    { name: "Articles" },
+    { name: "Timeline" },
+    { name: "Media Coverage" },
     { name: "Events" },
     { name: "Contact" }
   ]

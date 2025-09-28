@@ -15,6 +15,7 @@ const Footer = () => {
       case 'about':
         return '/about';
       case 'articles':
+      case 'media coverage':
         return '/articles';
       case 'events':
         return '/events';
@@ -125,11 +126,21 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <HiPhone className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <span className="text-neutral-300">{contactData.phone}</span>
+                <a 
+                  href={`tel:${contactData.phone}`}
+                  className="text-neutral-300 hover:text-primary-400 transition-colors duration-200"
+                >
+                  {contactData.phone}
+                </a>
               </div>
               <div className="flex items-center space-x-3">
                 <HiMail className="w-5 h-5 text-primary-400 flex-shrink-0" />
-                <span className="text-neutral-300">{contactData.email}</span>
+                <a 
+                  href={`mailto:${contactData.email}`}
+                  className="text-neutral-300 hover:text-primary-400 transition-colors duration-200"
+                >
+                  {contactData.email}
+                </a>
               </div>
             </div>
           </motion.div>
@@ -153,36 +164,38 @@ const Footer = () => {
             </ul>
           </motion.div>
 
-          {/* Services */}
+          {/* Useful Resources */}
           <motion.div variants={itemVariants}>
-            <h4 className="text-lg font-semibold mb-6">Our Services</h4>
+            <h4 className="text-lg font-semibold mb-6">Resources</h4>
             <ul className="space-y-3">
               {[
-                'Book Lending',
-                'Research Assistance',
-                'Digital Archives',
-                'Study Spaces',
-                'Academic Workshops',
-                'Cultural Events',
-                'Publication Support',
-                'Manuscript Preservation'
-              ].map((service) => (
-                <li key={service}>
-                  <span className="text-neutral-300 hover:text-primary-400 transition-colors duration-200">
-                    {service}
-                  </span>
+                { name: 'Media Coverage', href: '/articles' },
+                { name: 'Event Timeline', href: '/timeline' },
+                { name: 'Madhesh Discourse', href: '/events' },
+                { name: 'Contact Us', href: '/contact' },
+                { name: 'About MLRC', href: '/about' }
+              ].map((item) => (
+                <li key={item.name}>
+                  <Link href={item.href}>
+                    <motion.div
+                      whileHover={{ x: 5 }}
+                      className="text-neutral-300 hover:text-primary-400 transition-colors duration-200 cursor-pointer"
+                    >
+                      {item.name}
+                    </motion.div>
+                  </Link>
                 </li>
               ))}
             </ul>
           </motion.div>
         </motion.div>
 
-        {/* Social Media */}
+        {/* Social Media & Back to Top */}
         <motion.div
           variants={itemVariants}
-          className="mt-12 pt-8 border-t border-neutral-700 flex flex-col sm:flex-row justify-between items-center"
+          className="mt-8 pt-6 border-t border-neutral-700 flex justify-between items-center"
         >
-          <div className="flex space-x-6 mb-6 sm:mb-0">
+          <div className="flex space-x-4">
             {[
               { icon: FaFacebook, href: contactData.socialMedia.facebook, color: 'hover:text-blue-400' },
               { icon: FaTwitter, href: contactData.socialMedia.twitter, color: 'hover:text-blue-300' },
@@ -197,7 +210,7 @@ const Footer = () => {
                 whileTap={{ scale: 0.9 }}
                 className={`text-neutral-400 ${social.color} transition-colors duration-200`}
               >
-                <social.icon className="w-6 h-6" />
+                <social.icon className="w-5 h-5" />
               </motion.a>
             ))}
           </div>
@@ -206,10 +219,10 @@ const Footer = () => {
             onClick={scrollToTop}
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
-            className="flex items-center space-x-2 text-neutral-400 hover:text-primary-400 transition-colors duration-200"
+            className="text-neutral-400 hover:text-primary-400 transition-colors duration-200"
+            title="Back to Top"
           >
             <HiArrowUp className="w-5 h-5" />
-            <span>Back to Top</span>
           </motion.button>
         </motion.div>
       </div>
@@ -226,16 +239,18 @@ const Footer = () => {
             <p>
               © 2025 Madhesh Library & Research Center. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <button className="hover:text-primary-400 transition-colors duration-200">
-                Privacy Policy
-              </button>
-              <button className="hover:text-primary-400 transition-colors duration-200">
-                Terms of Service
-              </button>
-              <button className="hover:text-primary-400 transition-colors duration-200">
-                Cookie Policy
-              </button>
+            <div className="flex flex-col sm:flex-row sm:space-x-2 mt-4 md:mt-0 text-center md:text-right">
+              <span className="text-neutral-500">
+                Developed by
+              </span>
+              <a 
+                href="https://zwickytechnology.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary-400 hover:text-primary-300 transition-colors duration-200"
+              >
+                Zwicky Technology
+              </a>
             </div>
           </motion.div>
         </div>

@@ -58,12 +58,20 @@ const About = () => {
             <motion.div variants={itemVariants} className="relative">
               <div className="relative h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Library Interior"
+                  src="/library-photo.jpg"
+                  alt="Madhesh Library & Research Center - Our Facility"
                   fill
-                  className="object-cover"
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                {/* Photo caption overlay */}
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3">
+                    <p className="text-sm font-medium text-neutral-800">MLRC Library Space</p>
+                    <p className="text-xs text-neutral-600">Aloknagar, Kathmandu</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -137,10 +145,10 @@ const About = () => {
             <motion.button
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => document.querySelector('#articles')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => document.querySelector('#media-coverage')?.scrollIntoView({ behavior: 'smooth' })}
               className="bg-white text-primary-600 font-semibold py-3 px-8 rounded-lg hover:bg-primary-50 transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              Read Our Articles
+              View Media Coverage
             </motion.button>
           </motion.div>
         </motion.div>
