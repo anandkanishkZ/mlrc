@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { HiMenu, HiX, HiSearch } from 'react-icons/hi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HiMenu, HiX, HiOutlineSearch, HiChevronRight, HiSearch } from 'react-icons/hi';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,6 +13,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const pathname = usePathname();
 
   useEffect(() => {
@@ -23,19 +24,30 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent body scroll when sidebar is open
+  // Enhanced body scroll prevention for mobile
   useEffect(() => {
     if (isOpen) {
+      const scrollY = window.scrollY;
       document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = '0px';
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
     } else {
-      document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
-    
+
     return () => {
-      document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
     };
   }, [isOpen]);
 
@@ -69,256 +81,230 @@ const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white shadow-lg backdrop-blur-sm' 
+        isScrolled
+          ? 'bg-white/95 shadow-lg backdrop-blur-md'
           : 'bg-white/90 backdrop-blur-sm'
       }`}
     >
-      <div className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16 md:h-20 min-w-0 gap-2">
-          {/* Logo Section */}
-          <Link href="/">
+      <div className="w-full max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 lg:px-8">
+        {/* Desktop Layout */}
+        <div className="hidden md:flex items-center justify-between h-20 min-w-0 gap-4">
+          {/* Desktop Logo */}
+          <Link href="/" className="flex-shrink-0">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center cursor-pointer group min-w-0 flex-shrink-0"
+              className="flex items-center cursor-pointer group"
             >
-              {/* Desktop Text Logo */}
-              <div className="hidden md:block">
-                <Image
-                  src="/text-logo.png"
-                  alt="Madhesh Library & Research Center"
-                  width={280}
-                  height={56}
-                  className="h-10 md:h-12 lg:h-14 w-auto max-w-[250px] object-contain transition-all duration-300 group-hover:brightness-110"
-                  priority
-                />
-              </div>
-              
-              {/* Mobile Logo with Text */}
-              <div className="flex items-center md:hidden max-w-[200px]">
-                <Image
-                  src="/logo.png"
-                  alt="MLRC Logo"
-                  width={28}
-                  height={28}
-                  className="w-7 h-7 sm:w-8 sm:h-8 object-contain flex-shrink-0"
-                />
-                <div className="ml-2 min-w-0 overflow-hidden">
-                  <h1 className="text-sm sm:text-base font-bold text-neutral-800 leading-tight truncate">
-                    MLRC
-                  </h1>
-                  <p className="text-xs text-neutral-600 leading-none truncate hidden xs:block">
-                    Research Center
-                  </p>
-                </div>
-              </div>
+              <Image
+                src="/text-logo.png"
+                alt="Madhesh Library & Research Center"
+                width={300}
+                height={60}
+                className="h-8 md:h-10 lg:h-12 xl:h-14 w-auto max-w-[200px] md:max-w-[250px] lg:max-w-[280px] object-contain transition-all duration-300 group-hover:brightness-110"
+                priority
+              />
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="flex items-center space-x-2 xl:space-x-4 2xl:space-x-6">
             {navigationData.menuItems.map((item, index) => (
-              <Link key={item.name} href={getHref(item.name)}>
-                <motion.div
-                  whileHover={{ y: -2 }}
-                  whileTap={{ y: 0 }}
-                  className={`font-medium transition-colors duration-200 relative group cursor-pointer ${
-                    isActive(item.name)
-                      ? 'text-primary-500'
-                      : 'text-neutral-700 hover:text-primary-500'
-                  }`}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  {item.name}
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-primary-600 transition-all duration-200 ${
-                    isActive(item.name) ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`}></span>
-                </motion.div>
-              </Link>
+              <div key={item.name} className="relative group">
+                <Link href={getHref(item.name)}>
+                  <motion.div
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`px-3 lg:px-4 py-2 rounded-lg font-medium transition-all duration-200 relative cursor-pointer text-sm lg:text-base ${
+                      isActive(item.name)
+                        ? 'text-primary-600 bg-primary-50'
+                        : 'text-neutral-700 hover:text-primary-600 hover:bg-primary-50'
+                    }`}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    {item.name}
+                    <span className={`absolute bottom-1 left-1/2 transform -translate-x-1/2 h-0.5 bg-primary-600 transition-all duration-200 ${
+                      isActive(item.name) ? 'w-6' : 'w-0 group-hover:w-6'
+                    }`}></span>
+                  </motion.div>
+                </Link>
+              </div>
             ))}
           </nav>
 
-          {/* Mobile Menu & Search */}
-          <div className="flex items-center flex-shrink-0">
-            {/* Search Button - Hidden on very small screens */}
+          {/* Desktop Search Button */}
+          <div className="flex items-center">
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setShowSearch(!showSearch)}
-              className="hidden sm:block lg:block p-2 text-neutral-600 hover:text-primary-600 transition-colors duration-200 mr-2"
+              className={`p-2 xs:p-2.5 sm:p-3 rounded-lg transition-all duration-200 ${
+                showSearch 
+                  ? 'text-primary-600 bg-primary-50 shadow-sm' 
+                  : 'text-neutral-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
             >
               <HiSearch className="w-5 h-5" />
             </motion.button>
-
-            {/* Mobile Menu Button */}
+          </div>
+        </div>
+        
+        {/* Mobile Layout */}
+        <div className="md:hidden flex items-center h-16 xs:h-18 relative">
+          {/* Mobile Menu Button - Left */}
+          <div className="absolute left-0 z-10">
             <motion.button
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-1.5 sm:p-2 text-neutral-600 hover:text-primary-600 transition-colors duration-200 relative z-50"
+              onClick={() => {
+                setIsOpen(!isOpen);
+              }}
+              className={`p-2 xs:p-2.5 sm:p-3 rounded-lg transition-all duration-200 ${
+                isOpen 
+                  ? 'text-primary-600 bg-primary-50 shadow-sm' 
+                  : 'text-neutral-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               <motion.div
+                initial={false}
                 animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.2 }}
               >
-                {isOpen ? <HiX className="w-5 h-5 sm:w-6 sm:h-6" /> : <HiMenu className="w-5 h-5 sm:w-6 sm:h-6" />}
+                {isOpen ? (
+                  <HiX className="w-5 h-5 xs:w-6 xs:h-6" />
+                ) : (
+                  <HiMenu className="w-5 h-5 xs:w-6 xs:h-6" />
+                )}
               </motion.div>
+            </motion.button>
+          </div>
+
+          {/* Centered Mobile Text Logo */}
+          <Link href="/" className="flex-1 flex justify-center items-center px-16">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="flex justify-center cursor-pointer"
+            >
+              <Image
+                src="/text-logo.png"
+                alt="Madhesh Library & Research Center"
+                width={300}
+                height={60}
+                className="h-7 xs:h-8 sm:h-9 md:h-10 w-auto max-w-[180px] xs:max-w-[200px] sm:max-w-[220px] object-contain transition-all duration-300"
+                priority
+              />
+            </motion.div>
+          </Link>
+
+          {/* Search Button - Right */}
+          <div className="absolute right-0 z-10">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowSearch(!showSearch)}
+              className={`p-2 xs:p-2.5 sm:p-3 rounded-lg transition-all duration-200 ${
+                showSearch 
+                  ? 'text-primary-600 bg-primary-50 shadow-sm' 
+                  : 'text-neutral-600 hover:text-primary-600 hover:bg-primary-50'
+              }`}
+            >
+              <HiSearch className="w-4 h-4 xs:w-5 xs:h-5" />
             </motion.button>
           </div>
         </div>
 
-        {/* Search Bar */}
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ 
-            height: showSearch ? 'auto' : 0, 
-            opacity: showSearch ? 1 : 0 
-          }}
-          className="overflow-hidden"
-        >
-          <div className="pb-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search media coverage or events..."
-                className="w-full p-3 pl-10 pr-4 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              />
-              <HiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
-            </div>
-          </div>
-        </motion.div>
 
+
+        {/* Enhanced Responsive Search Bar */}
+        <AnimatePresence>
+          {showSearch && (
+            <motion.div
+              initial={{ height: 0, opacity: 0, y: -10 }}
+              animate={{ height: 'auto', opacity: 1, y: 0 }}
+              exit={{ height: 0, opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+              className="overflow-hidden border-t border-neutral-100"
+            >
+              <div className="px-4 xs:px-6 py-3 xs:py-4 bg-neutral-50/50">
+                <div className="relative max-w-md mx-auto lg:max-w-lg">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search articles, events, resources..."
+                    className="w-full pl-10 pr-4 py-2.5 xs:py-3 text-sm xs:text-base border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 shadow-sm"
+                    autoFocus
+                  />
+                  <HiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4 xs:w-5 xs:h-5" />
+                  
+                  {/* Clear Search Button */}
+                  {searchQuery && (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-neutral-400 hover:text-neutral-600 transition-colors"
+                    >
+                      <HiX className="w-4 h-4" />
+                    </motion.button>
+                  )}
+                </div>
+                
+                {/* Search Suggestions */}
+                {searchQuery && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-2 text-xs xs:text-sm text-neutral-500 text-center"
+                  >
+                    Press Enter to search for "{searchQuery}"
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Enhanced Responsive Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.nav
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="lg:hidden overflow-hidden border-t border-neutral-100 bg-white/95 backdrop-blur-md"
+            >
+              <div className="px-4 xs:px-6 py-4 xs:py-6 space-y-1">
+                {navigationData.menuItems.map((item, index) => (
+                  <div key={item.name}>
+                    <Link href={getHref(item.name)}>
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        onClick={() => {
+                          setIsOpen(false);
+                        }}
+                        className={`flex items-center justify-between py-3 px-4 text-base font-medium rounded-xl transition-all duration-200 cursor-pointer touch-target ${
+                          isActive(item.name)
+                            ? 'text-primary-600 bg-primary-50 shadow-sm'
+                            : 'text-neutral-700 hover:text-primary-600 hover:bg-primary-50'
+                        }`}
+                      >
+                        <span>{item.name}</span>
+                        <HiChevronRight className="w-4 h-4 text-neutral-400" />
+                      </motion.div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </div>
-
-      {/* Mobile Sidebar Overlay */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isOpen ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        className={`lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40 ${
-          isOpen ? 'pointer-events-auto' : 'pointer-events-none'
-        }`}
-        onClick={() => setIsOpen(false)}
-      />
-
-      {/* Mobile Sliding Sidebar */}
-      <motion.nav
-        initial={{ x: '-100%' }}
-        animate={{ x: isOpen ? 0 : '-100%' }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="lg:hidden fixed top-0 left-0 h-full w-[280px] max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col overflow-hidden"
-      >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-4 border-b border-neutral-200 min-w-0">
-          <div className="flex items-center space-x-3 min-w-0 flex-1">
-            <Image
-              src="/logo.png"
-              alt="MLRC Logo"
-              width={36}
-              height={36}
-              className="w-9 h-9 object-contain flex-shrink-0"
-            />
-            <div className="min-w-0">
-              <h2 className="text-lg font-bold text-neutral-800 truncate">MLRC</h2>
-              <p className="text-xs text-neutral-600 truncate">Research Center</p>
-            </div>
-          </div>
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsOpen(false)}
-            className="p-2 text-neutral-600 hover:text-primary-600 transition-colors flex-shrink-0"
-          >
-            <HiX className="w-6 h-6" />
-          </motion.button>
-        </div>
-
-        {/* Search in Sidebar for small screens */}
-        <div className="px-4 py-4 border-b border-neutral-200 sm:hidden">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full pl-10 pr-4 py-2 border border-neutral-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
-            />
-            <HiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-4 h-4" />
-          </div>
-        </div>
-
-        {/* Navigation Menu */}
-        <div className="flex-1 py-2">
-          {navigationData.menuItems.map((item, index) => (
-            <Link key={item.name} href={getHref(item.name)} className="block">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ 
-                  opacity: 1, 
-                  x: 0
-                }}
-                transition={{ delay: isOpen ? index * 0.1 : 0, duration: 0.3 }}
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center justify-between px-6 py-4 mx-3 my-1 rounded-lg transition-all duration-200 cursor-pointer group ${
-                  isActive(item.name)
-                    ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-600'
-                    : 'text-neutral-700 hover:text-primary-600 hover:bg-neutral-50 border-l-4 border-transparent'
-                }`}
-              >
-                <span className="font-medium text-base">{item.name}</span>
-                <svg 
-                  className={`w-4 h-4 transition-opacity duration-200 ${
-                    isActive(item.name) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                  }`} 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Sidebar Footer */}
-        <div className="mt-auto p-4 border-t border-neutral-200 bg-neutral-50">
-          <p className="text-xs text-neutral-600 text-center mb-3">
-            Building Conscious Intelligentsia
-          </p>
-          <div className="flex justify-center space-x-4">
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              href={contactData.socialMedia.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-400 hover:text-primary-600 transition-colors"
-            >
-              <FaFacebook className="w-4 h-4" />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              href={contactData.socialMedia.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-400 hover:text-primary-600 transition-colors"
-            >
-              <FaTwitter className="w-4 h-4" />
-            </motion.a>
-            <motion.a
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              href={contactData.socialMedia.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-400 hover:text-primary-600 transition-colors"
-            >
-              <FaInstagram className="w-4 h-4" />
-            </motion.a>
-          </div>
-        </div>
-      </motion.nav>
     </motion.header>
   );
 };

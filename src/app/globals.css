@@ -24,6 +24,20 @@
   * {
     box-sizing: border-box;
   }
+  
+  /* Touch targets for mobile accessibility */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Enhanced mobile menu */
+  @media (max-width: 1023px) {
+    .mobile-menu-backdrop {
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+  }
 }
 
 @layer components {
